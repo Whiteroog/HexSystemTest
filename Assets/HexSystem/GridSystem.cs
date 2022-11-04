@@ -12,6 +12,8 @@ namespace HexSystem
 
         private Vector3 _offset;
 
+        public const int DirectionOffset = 1;
+
         private void Awake()
         {
             tilemap = GetComponent<Tilemap>();
@@ -37,8 +39,13 @@ namespace HexSystem
             int y = Mathf.RoundToInt(position.y / _offset.y);
             int z = Mathf.RoundToInt(position.z / _offset.z);
             
-            // y % 2
-            int x = (y % 2) == 0 ? Mathf.RoundToInt(position.x / _offset.x) : Mathf.CeilToInt(position.x / _offset.x);
+            // first option (simple)
+            // int x = (y % 2) == 0 ? Mathf.RoundToInt(position.x / _offset.x) : Mathf.CeilToInt(position.x / _offset.x);
+
+            // second option (true)
+            float positionX = (y % 2 == 0) ? position.x : position.x + (DirectionOffset * (_offset.x / 2.0f));
+            
+            int x = Mathf.RoundToInt(positionX / _offset.x);
 
             return new Vector3Int(x, y, z);
         }
